@@ -1,3 +1,4 @@
+import { Readable } from 'node:stream';
 import type { ShortLinksRepository } from '@/domain/links/application/repositories/short-links.repository';
 import type { ShortLink } from '@/domain/links/enterprise/entities/short-link';
 
@@ -42,5 +43,9 @@ export class InMemoryShortLinksRepository implements ShortLinksRepository {
     if (itemIndex >= 0) {
       this.items.splice(itemIndex, 1);
     }
+  }
+
+  async streamAll(): Promise<Readable> {
+    return Readable.from(this.items);
   }
 }

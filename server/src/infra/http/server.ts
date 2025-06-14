@@ -11,6 +11,7 @@ import {
 } from 'fastify-type-provider-zod';
 import { createLinkController } from './controllers/create-link.controller';
 import { deleteLinkController } from './controllers/delete-link.controller';
+import { exportLinksController } from './controllers/export-links.controller';
 import { getLinkController } from './controllers/get-link.controller';
 import { incrementAccessCountController } from './controllers/increment-access-count.controller';
 import { listLinksController } from './controllers/list-links.controller';
@@ -61,6 +62,8 @@ server.register(getLinkController);
 server.register(createLinkController);
 server.register(incrementAccessCountController);
 server.register(deleteLinkController);
+
+server.register(exportLinksController);
 
 server.listen({ port: env.PORT }).then(() => {
   console.log('HTTP server running on port', env.PORT);

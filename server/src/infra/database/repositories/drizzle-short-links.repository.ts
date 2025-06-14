@@ -1,7 +1,8 @@
+import { Readable } from 'node:stream';
 import type { ShortLinksRepository } from '@/domain/links/application/repositories/short-links.repository';
 import type { ShortLink } from '@/domain/links/enterprise/entities/short-link';
 import { eq } from 'drizzle-orm';
-import type { db } from '..';
+import { type db, pg } from '..';
 import { DrizzleShortLinkMapper } from '../mappers/short-link.mapper';
 import { schema } from '../schemas';
 
@@ -56,5 +57,21 @@ export class DrizzleShortLinksRepository implements ShortLinksRepository {
     await this.database
       .delete(schema.shortLinks)
       .where(eq(schema.shortLinks.id, shortLink.id.toString()));
+  }
+
+  async streamAll(): Promise<Readable> {
+    const { sql, params } = this.database
+      .select({
+        code: schema.shortLinks.code,
+        originalUrl: schema.shortLinks.originalUrl,
+        accessCount: schema.shortLinks.accessCount,
+        createdAt: schema.shortLinks.createdAt,
+      })
+      .from(schema.shortLinks)
+      .toSQL();
+
+    const cursor = pg.unsafe(sql, params as never[]).cursor(100);
+
+    return Readable.from(cursor);
   }
 }
