@@ -24,13 +24,16 @@
       "recommended": true,
       "correctness": {
         "noUnusedImports": { "level": "warn", "fix": "safe" }
+      },
+      "complexity": {
+        "noStaticOnlyClass": "off"
       }
     }
   },
   "javascript": {
     "formatter": {
       "quoteStyle": "single",
-      "semicolons": "asNeeded",
+      "semicolons": "always",
       "arrowParentheses": "asNeeded",
       "jsxQuoteStyle": "double",
       "trailingCommas": "es5"
