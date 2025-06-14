@@ -11,6 +11,7 @@ import {
 } from 'fastify-type-provider-zod';
 import { createLinkController } from './controllers/create-link.controller';
 import { getLinkController } from './controllers/get-link.controller';
+import { incrementAccessCountController } from './controllers/increment-access-count.controller';
 
 const server = fastify();
 
@@ -55,6 +56,7 @@ server.setErrorHandler((error, _, reply) => {
 
 server.register(getLinkController);
 server.register(createLinkController);
+server.register(incrementAccessCountController);
 
 server.listen({ port: env.PORT }).then(() => {
   console.log('HTTP server running on port', env.PORT);
