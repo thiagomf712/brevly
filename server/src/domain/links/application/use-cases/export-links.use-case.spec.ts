@@ -1,7 +1,7 @@
 import { makeShortLink } from 'tests/factories/make-short-link';
 import { InMemoryShortLinksRepository } from 'tests/repositories/in-memory-short-links.repository';
 import { FakeUploader } from 'tests/storage/fake-uploader';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { beforeEach, describe, expect, it } from 'vitest';
 import { ExportLinksUseCase } from './export-links.use-case';
 
 let inMemoryShortLinksRepository: InMemoryShortLinksRepository;

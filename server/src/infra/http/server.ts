@@ -65,6 +65,6 @@ server.register(deleteLinkController);
 
 server.register(exportLinksController);
 
-server.listen({ port: env.PORT }).then(() => {
+server.listen({ port: env.PORT, host: '0.0.0.0' }).then(() => {
   console.log('HTTP server running on port', env.PORT);
 });
