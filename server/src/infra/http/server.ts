@@ -10,6 +10,7 @@ import {
   validatorCompiler,
 } from 'fastify-type-provider-zod';
 import { createLinkController } from './controllers/create-link.controller';
+import { getLinkController } from './controllers/get-link.controller';
 
 const server = fastify();
 
@@ -52,6 +53,7 @@ server.setErrorHandler((error, _, reply) => {
   });
 });
 
+server.register(getLinkController);
 server.register(createLinkController);
 
 server.listen({ port: env.PORT }).then(() => {
