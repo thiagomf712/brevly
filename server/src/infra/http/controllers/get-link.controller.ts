@@ -43,7 +43,9 @@ export const getLinkController: FastifyPluginAsyncZod = async app => {
         return reply.status(400).send({ message: error.message });
       }
 
-      return reply.status(200).send(ShortLinkPresenter.toHTTP(result.value));
+      const { shortLink } = result.value;
+
+      return reply.status(200).send(ShortLinkPresenter.toHTTP(shortLink));
     }
   );
 };

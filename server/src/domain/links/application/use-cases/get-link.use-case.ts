@@ -9,7 +9,7 @@ import { LinkNotFoundError } from './errors/link-not-found.error';
 const getLinkSchema = z.object({ code: z.string() });
 type GetLinkUseCaseRequest = z.infer<typeof getLinkSchema>;
 
-type GetLinkUseCaseResponse = Either<AppError, ShortLink>;
+type GetLinkUseCaseResponse = Either<AppError, { shortLink: ShortLink }>;
 
 export class GetLinkUseCase {
   constructor(private shortLinksRepository: ShortLinksRepository) {}
@@ -31,6 +31,6 @@ export class GetLinkUseCase {
       return left(new LinkNotFoundError());
     }
 
-    return right(shortLink);
+    return right({ shortLink });
   }
 }

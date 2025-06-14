@@ -28,7 +28,7 @@ describe('Get Link Use Case', () => {
     // Assert
     expect(result.isRight()).toBe(true);
     if (result.isRight()) {
-      expect(result.value).toEqual(newLink);
+      expect(result.value.shortLink).toEqual(newLink);
     }
   });
 

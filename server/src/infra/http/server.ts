@@ -12,6 +12,7 @@ import {
 import { createLinkController } from './controllers/create-link.controller';
 import { getLinkController } from './controllers/get-link.controller';
 import { incrementAccessCountController } from './controllers/increment-access-count.controller';
+import { listLinksController } from './controllers/list-links.controller';
 
 const server = fastify();
 
@@ -54,6 +55,7 @@ server.setErrorHandler((error, _, reply) => {
   });
 });
 
+server.register(listLinksController);
 server.register(getLinkController);
 server.register(createLinkController);
 server.register(incrementAccessCountController);
