@@ -38,9 +38,9 @@ export const createLinkController: FastifyPluginAsyncZod = async app => {
             }),
         }),
         response: {
-          201: shortLinkPresenterSchema.describe('Success'),
+          201: z.object({ link: shortLinkPresenterSchema }).describe('Success'),
           400: validationErrorResponse.describe('Validation error'),
-          409: appErrorResponse.describe('Conflict'),
+          409: appErrorResponse.describe('Code already in use'),
         },
       },
     },
@@ -54,19 +54,26 @@ export const createLinkController: FastifyPluginAsyncZod = async app => {
           return reply.status(400).send({
             message: 'A validation error occurred.',
             issues: error.details.flatten().fieldErrors,
+            errorCode: error.code,
           });
         }
 
         if (error instanceof CodeAlreadyInUseError) {
-          return reply.status(409).send({ message: error.message });
+          return reply
+            .status(409)
+            .send({ message: error.message, errorCode: error.code });
         }
 
-        return reply.status(400).send({ message: error.message });
+        return reply
+          .status(400)
+          .send({ message: error.message, errorCode: error.code });
       }
 
       const { shortLink } = result.value;
 
-      return reply.status(201).send(ShortLinkPresenter.toHTTP(shortLink));
+      return reply
+        .status(201)
+        .send({ link: ShortLinkPresenter.toHTTP(shortLink) });
     }
   );
 };

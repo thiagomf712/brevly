@@ -4,7 +4,6 @@ import { DrizzleShortLinksRepository } from '@/infra/database/repositories/drizz
 import { R2Storage } from '@/infra/storage/r2-storage';
 import type { FastifyPluginAsyncZod } from 'fastify-type-provider-zod';
 import { z } from 'zod';
-import { appErrorResponse } from '../utils/app-error-response';
 
 export const exportLinksController: FastifyPluginAsyncZod = async app => {
   const shortLinksRepository = new DrizzleShortLinksRepository(db);
@@ -24,23 +23,19 @@ export const exportLinksController: FastifyPluginAsyncZod = async app => {
           200: z.object({
             reportUrl: z.string().url(),
           }),
-          400: appErrorResponse.describe(
-            'Error while generating or uploading the report.'
-          ),
         },
       },
     },
     async (_, reply) => {
       const result = await exportLinksUseCase.execute();
 
-      if (result.isLeft()) {
-        const error = result.value;
-        return reply.status(400).send({ message: error.message });
+      if (result.isRight()) {
+        const { reportUrl } = result.value;
+
+        return reply.status(200).send({ reportUrl });
       }
 
-      const { reportUrl } = result.value;
-
-      return reply.status(200).send({ reportUrl });
+      return reply.status(500).send();
     }
   );
 };

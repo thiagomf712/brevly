@@ -35,6 +35,8 @@ export const listLinksController: FastifyPluginAsyncZod = async app => {
           .status(200)
           .send({ links: links.map(ShortLinkPresenter.toHTTP) });
       }
+
+      return reply.status(500).send();
     }
   );
 };

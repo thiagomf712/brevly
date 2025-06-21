@@ -24,7 +24,7 @@ export const getLinkController: FastifyPluginAsyncZod = async app => {
           code: z.string(),
         }),
         response: {
-          200: shortLinkPresenterSchema.describe('Success'),
+          200: z.object({ link: shortLinkPresenterSchema }).describe('Success'),
           404: appErrorResponse.describe('Link not found'),
         },
       },
@@ -37,15 +37,21 @@ export const getLinkController: FastifyPluginAsyncZod = async app => {
         const error = result.value;
 
         if (error instanceof LinkNotFoundError) {
-          return reply.status(404).send({ message: error.message });
+          return reply
+            .status(404)
+            .send({ message: error.message, errorCode: error.code });
         }
 
-        return reply.status(400).send({ message: error.message });
+        return reply
+          .status(400)
+          .send({ message: error.message, errorCode: error.code });
       }
 
       const { shortLink } = result.value;
 
-      return reply.status(200).send(ShortLinkPresenter.toHTTP(shortLink));
+      return reply
+        .status(200)
+        .send({ link: ShortLinkPresenter.toHTTP(shortLink) });
     }
   );
 };

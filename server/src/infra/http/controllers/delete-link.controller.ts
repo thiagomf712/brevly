@@ -33,10 +33,14 @@ export const deleteLinkController: FastifyPluginAsyncZod = async app => {
         const error = result.value;
 
         if (error instanceof LinkNotFoundError) {
-          return reply.status(404).send({ message: error.message });
+          return reply
+            .status(404)
+            .send({ message: error.message, errorCode: error.code });
         }
 
-        return reply.status(400).send({ message: error.message });
+        return reply
+          .status(400)
+          .send({ message: error.message, errorCode: error.code });
       }
 
       return reply.status(204).send();

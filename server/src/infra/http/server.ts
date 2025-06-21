@@ -15,6 +15,8 @@ import { exportLinksController } from './controllers/export-links.controller';
 import { getLinkController } from './controllers/get-link.controller';
 import { incrementAccessCountController } from './controllers/increment-access-count.controller';
 import { listLinksController } from './controllers/list-links.controller';
+import type { AppErrorResponse } from './utils/app-error-response';
+import type { ValidationErrorResponse } from './utils/validation-errors-response';
 
 const server = fastify();
 
@@ -44,17 +46,23 @@ server.register(scalarUI, {
 
 server.setErrorHandler((error, _, reply) => {
   if (hasZodFastifySchemaValidationErrors(error)) {
-    return reply.status(400).send({
+    const response: ValidationErrorResponse = {
       message: 'Validation error',
       issues: error.validation,
-    });
+      errorCode: 'VALIDATION_ERROR',
+    };
+
+    return reply.status(400).send(response);
   }
 
   console.error(error);
 
-  reply.status(500).send({
+  const response: AppErrorResponse = {
     message: 'Internal server error',
-  });
+    errorCode: 'UNKNOWN_ERROR',
+  };
+
+  reply.status(500).send(response);
 });
 
 server.register(listLinksController);

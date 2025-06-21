@@ -1,12 +1,11 @@
 import { PassThrough, Transform } from 'node:stream';
 import { pipeline } from 'node:stream/promises';
 import { type Either, right } from '@/core/either';
-import type { AppError } from '@/core/errors/app.error';
 import { stringify } from 'csv-stringify';
 import type { ShortLinksRepository } from '../repositories/short-links.repository';
 import type { Uploader } from '../storage/uploader';
 
-type ExportLinksUseCaseResponse = Either<AppError, { reportUrl: string }>;
+type ExportLinksUseCaseResponse = Either<void, { reportUrl: string }>;
 
 export class ExportLinksUseCase {
   constructor(
