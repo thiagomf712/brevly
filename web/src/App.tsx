@@ -1,4 +1,5 @@
 import { BrowserRouter } from 'react-router'
+import { Toaster } from './components/ui/sonner'
 import { AppRoutes } from './routes'
 
 export function App() {
@@ -7,6 +8,8 @@ export function App() {
       <BrowserRouter>
         <AppRoutes />
       </BrowserRouter>
+
+      <Toaster />
     </>
   )
 }
