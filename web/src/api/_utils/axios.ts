@@ -36,7 +36,7 @@ export const api = {
     config?: SafeParamsAxiosRequestConfig<Params, Body>
   ) => apiInstance.patch<Res, AxiosResponse<Res>, Body>(url, body, config),
 
-  delete: <Res, Params = void>(
+  delete: <Res = void, Params = void>(
     url: string,
     config?: SafeParamsAxiosRequestConfig<Params>
   ) => apiInstance.delete<Res, AxiosResponse<Res>>(url, config),

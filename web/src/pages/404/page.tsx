@@ -1,4 +1,4 @@
-import { NotFoundCard } from '@/components/NotFountCard'
+import { NotFoundCard } from '@/components/not-found-card'
 
 export function NotFoundPage() {
   return (

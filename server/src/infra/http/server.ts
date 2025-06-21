@@ -23,7 +23,10 @@ const server = fastify();
 server.setValidatorCompiler(validatorCompiler);
 server.setSerializerCompiler(serializerCompiler);
 
-server.register(fastifyCors, { origin: '*' });
+server.register(fastifyCors, {
+  origin: '*',
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
+});
 
 server.register(fastifySwagger, {
   openapi: {

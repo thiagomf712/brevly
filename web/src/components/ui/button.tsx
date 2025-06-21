@@ -4,15 +4,15 @@ import type { ComponentProps } from 'react'
 import { cn } from '@/lib/utils'
 
 const buttonVariants = cva(
-  'flex items-center justify-center gap-1.5 whitespace-nowrap transition-all cursor-pointer disabled:cursor-default disabled:opacity-50',
+  'flex cursor-pointer items-center justify-center gap-1.5 whitespace-nowrap transition-all disabled:cursor-default disabled:opacity-50',
   {
     variants: {
       variant: {
         primary:
-          'bg-blue-base hover:not-disabled:bg-blue-dark text-white text-base min-h-12 rounded-lg w-full px-5',
+          'min-h-12 w-full rounded-lg bg-blue-base px-5 text-base text-white hover:not-disabled:bg-blue-dark',
         secondary:
-          'w-fit text-gray-500 bg-gray-200 text-sm-sb rounded-sm min-h-8 px-2 border border-gray-200 hover:not-disabled:border-blue-base [&_svg]:text-gray-600 [&_svg]:size-4',
-        icon: 'w-fit size-8 rounded-sm bg-gray-200 border border-gray-200 hover:not-disabled:border-blue-base [&_svg]:text-gray-600 [&_svg]:size-4',
+          'min-h-8 w-fit rounded-sm border border-gray-200 bg-gray-200 px-2 text-gray-500 text-sm-sb hover:not-disabled:border-blue-base [&_svg]:size-4 [&_svg]:text-gray-600',
+        icon: 'size-8 rounded-sm border border-gray-200 bg-gray-200 hover:not-disabled:border-blue-base [&_svg]:size-4 [&_svg]:text-gray-600',
       },
     },
     defaultVariants: {

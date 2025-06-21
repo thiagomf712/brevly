@@ -1,5 +1,5 @@
 import { api } from '@/api/_utils/axios'
-import { type ApiResponse, safeApiCall } from '@/api/_utils/safe-api-call'
+import { safeApiCall } from '@/api/_utils/safe-api-call'
 import type { ApiLink } from './list-all'
 
 export type ApiCreateLinkResponse = { link: ApiLink }
@@ -14,11 +14,17 @@ export type ApiCreateLinkRequest = {
 export async function apiCreateLink({
   code,
   originalUrl,
-}: ApiCreateLinkRequest): Promise<ApiResponse<ApiCreateLinkResponse>> {
-  return safeApiCall<ApiCreateLinkResponse>(() =>
+}: ApiCreateLinkRequest): Promise<ApiCreateLinkResponse> {
+  const result = await safeApiCall<ApiCreateLinkResponse>(() =>
     api.post<ApiCreateLinkRequest, ApiCreateLinkResponse>('/links', {
       code,
       originalUrl,
     })
   )
+
+  if (!result.success) {
+    throw new Error(result.error)
+  }
+
+  return result.data
 }

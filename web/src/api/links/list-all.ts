@@ -1,5 +1,5 @@
 import { api } from '@/api/_utils/axios'
-import { type ApiResponse, safeApiCall } from '@/api/_utils/safe-api-call'
+import { safeApiCall } from '@/api/_utils/safe-api-call'
 
 export type ApiLink = {
   id: string
@@ -10,10 +10,14 @@ export type ApiLink = {
 
 export type ApiListAllLinksResponse = { links: ApiLink[] }
 
-export async function apiListAllLinks(): Promise<
-  ApiResponse<ApiListAllLinksResponse>
-> {
-  return safeApiCall<ApiListAllLinksResponse>(() =>
+export async function apiListAllLinks(): Promise<ApiListAllLinksResponse> {
+  const result = await safeApiCall<ApiListAllLinksResponse>(() =>
     api.get<ApiListAllLinksResponse>('/links')
   )
+
+  if (!result.success) {
+    throw new Error(result.error)
+  }
+
+  return result.data
 }

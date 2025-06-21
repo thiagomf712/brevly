@@ -18,7 +18,16 @@
     "enabled": true,
     "rules": {
       "recommended": true,
-      "correctness": { "noUnusedImports": { "fix": "safe", "level": "warn" } },
+      "correctness": {
+        "noUnusedImports": { "fix": "safe", "level": "warn" },
+        "useExhaustiveDependencies": {
+          "level": "warn",
+          "options": {
+            "reportMissingDependenciesArray": true,
+            "reportUnnecessaryDependencies": true
+          }
+        }
+      },
       "nursery": {
         "useSortedClasses": {
           "fix": "safe",
