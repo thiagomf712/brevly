@@ -1,19 +1,38 @@
 import type { ComponentProps } from 'react'
 import { cn } from '@/lib/utils'
 
-function Input({ className, type, ...props }: ComponentProps<'input'>) {
+type InputProps = ComponentProps<'input'> & {
+  prefix?: string
+}
+
+function Input({ className, type, prefix, ...props }: InputProps) {
   return (
-    <input
-      type={type}
-      data-slot="input"
+    <div
       className={cn(
-        'w-full rounded-lg min-h-12 px-4 bg-transparent outline-none disabled:opacity-50',
-        'text-base font-normal text-gray-600 placeholder:text-base placeholder:font-normal placeholder:text-gray-400',
-        'border border-gray-300 focus-visible:ring focus-visible:ring-blue-base focus-visible:border-blue-base aria-invalid:not-focus-visible:border-danger aria-invalid:not-focus-visible:ring aria-invalid:not-focus-visible:ring-danger',
+        'group flex min-h-12 w-full items-center rounded-lg border border-gray-300 bg-transparent px-4 transition-all',
+        'focus-within:border-blue-base focus-within:ring focus-within:ring-blue-base',
+        'data-[invalid=true]:not-focus-within:border-danger data-[invalid=true]:not-focus-within:ring data-[invalid=true]:not-focus-within:ring-danger',
         className
       )}
-      {...props}
-    />
+      data-invalid={props['aria-invalid']}
+    >
+      {prefix && (
+        <span className="pointer-events-none select-none font-normal text-base text-gray-400">
+          {prefix}
+        </span>
+      )}
+
+      <input
+        type={type}
+        data-slot="input"
+        className={cn(
+          'h-full w-full bg-transparent p-0 font-normal text-base text-gray-600 outline-none disabled:opacity-50',
+          'placeholder:font-normal placeholder:text-base placeholder:text-gray-400',
+          className
+        )}
+        {...props}
+      />
+    </div>
   )
 }
 
