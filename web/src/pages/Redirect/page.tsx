@@ -19,6 +19,7 @@ export function RedirectPage() {
   const { isPending, data, isError, error } = useQuery({
     queryKey: [QueryKeys.redirect, code],
     queryFn: () => apiRequests.links.getByCode({ code: code ?? '' }),
+    retry: 0,
   })
 
   const incrementLinkAccessMutation = useMutation({
@@ -55,7 +56,7 @@ export function RedirectPage() {
     }
   }, [data])
 
-  const linkNotFound = code == null || (!isError && !data && !isPending)
+  const linkNotFound = code == null || isError || (!data && !isPending)
 
   return (
     <div className="flex h-dvh items-center justify-center">
